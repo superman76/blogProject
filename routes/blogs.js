@@ -9,9 +9,8 @@ router.route('/blogs')
 	.post(function(req, res) {
 
 	var blog = new Blog();
-	// bear.name = req.body.name;
-	// bear.age = req.body.age;
-	// bear.gender = req.body.gender;
+	blog.author = req.body.author;
+	blog.blogPost = req.body.blogPost;
 // these are pulling it from the request(or the form, or postman)
 	blog.save(function(err, blog) {
 			if(err) {
@@ -43,13 +42,12 @@ router.route('/blogs/:blog_id')
 		})
 	})
 	.put(function(req, res){
-		Blog.findById(req.params.blog_id, function(err, bear){
+		Blog.findById(req.params.blog_id, function(err, blog){
 		  if(err){
 		  	console.log(err)
 		  } else {
-		  	// bear.name = req.body.name ? req.body.name : bear.name;
-		  	// bear.age = req.body.age ? req.body.age : bear.age;
-		  	// bear.gender = req.body.gender ? req.body.gender : bear.gender;
+		  	// blog.author = req.body.author ? req.body.author : blog.author;
+		  	// blog.blogPost = req.body.blogPost ? req.body.blogPost : blog.blogPost;
 		  	
 		  	blog.save(function(err){
 		  		if(err){

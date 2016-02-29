@@ -1,6 +1,6 @@
 console.log('hello world');
 
-// function deleteBear (event) {
+// function deleteBlog (event) {
 // 	event.preventDefault();
 
 // 	var $button = $(event.target)  
@@ -8,7 +8,7 @@ console.log('hello world');
 // 	var id = $button.data("id");  
 	
 
-// 	console.log("Bear has been deleted: " + id)
+// 	console.log("Blog has been deleted: " + id)
 
 // 	$.ajax("/api/bears/" + id, {method: "DELETE"}).done(function() {
 // 		$button.closest('tr').remove();
