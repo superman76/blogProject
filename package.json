@@ -8,10 +8,19 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
+    "connect-flash": "^0.1.1",
+    "dot": "^1.0.3",
+    "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
+    "env": "0.0.2",
     "express": "^4.13.4",
-    "mongoose": "^4.4.5"
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.5",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "twit": "^2.2.2"
   },
   "repository": {
     "type": "git",

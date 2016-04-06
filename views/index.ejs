@@ -1,18 +1,49 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-	<title>Hello World!</title>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Charlie's Blog</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<h1> What's up Dude? </h1>	
 		<link rel="stylesheet" type="text/css" href="main.css">
+	<h1> BLOGGART </h1>	
 </head>
-<body>
+<body class='container'>
+<%- include ./partials/navBar.ejs %>
+	<div class='jumbotron'>
+		<div class='row'>
+			<div class='col-md-8'>
+				<h3>Charles Blood</h3>
+				<p>Full Stack Developer</p>
+				<p>Blood Enterprises</p>
+				<p>406.529.9091</p>
+			</div>
+			<div class='col-md-8'>
+				<img src='/images/pictures/1012151904_HDR-2.jpg' class='img-responsive cstm-center' alt='Image'>
+			</div>
+		</div>
+		<div class="row">
+    		<div class="col-md-4">
+      			<ul class="social-icons">
+      			  <li><a href="https://github.com/superman76" target="_blank"><i class="fa fa-github-alt"></i></a></li>
+      			  <li><a href="https://www.linkedin.com/in/charles-blood-0649b770?trk=nav_responsive_tab_profile" target="_blank"><i class="fa fa-linkedin-square"></i></a></li>
 
-		<script src="https://code.jquery.com/jquery-2.2.0.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+				</ul>
+			</div class="col-md-4">
+		</div>
+
+<!-- <% if(user.local) { %>
+	<%= user.local.email %>
+  <% } else { %>
+  	<%= user %>
+ <% } %> -->
+</body>
+	<script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 	<script src="app.js"></script>
-</body>
 
 
 </html>

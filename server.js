@@ -1,59 +1,118 @@
-console.log("hello world");
-
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var Blog = require('./models/blog');
-
+var passport = require('passport');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/blogposts');
+var flash = require('connect-flash');
+var session = require('express-session');
 
-var blogRouter = require('./routes/blogs');
+var postRoutes = require('./routes/post');
+var userRoutes = require('./routes/user');
+// var commentRoutes = require('./routes/comment');
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+var tweetRoutes = require('./routes/tweets');
 
-
-app.use(express.static('public'));
-
+var commentRoutes = require('./routes/comment');
+var Post = require('./models/post'); 
 
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(function(req, res, next){
+  console.log(" trying to do something...")
+  next();
+})
+// ##############
+// we are configuring our app to use passport
+
+app.use(express.static('public'));
+
+// passport stuff..
+
+app.use(session({
+ secret: 'ilovescotchscotchyscotchscotch'
+})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(session({
+ cookie: {
+   maxAge: 60000
+ }
+}));
+app.use(flash());
+
+require('./config/passport')(passport);
+// routes ======================================================================
+require('./routes/user.js')(app, passport);
+
+
+
+var port = process.env.PORT || 8080;
+
+// middleware to console.log a new user.  
+app.use(function(req, res, next){
+  console.log('Whatever!')
+  next();
+});
+
+
+
+// var router = express.Router();
+
 app.get('/', function(req, res){
-	res.render('index', {title: "Charlie's Blog"})
+	var user = req.user || "no user";
+	res.render('index', {user: user})
 });
 
-app.get('/about', function(req, res){
-	var data ={};
-	data.title = 'ABOUT PAGE';
-	data.name = 'Charles Blood';
-	data.time = new Date();
-	res.render('about', data);
+app.get('/social', function(req, res) {
+  res.render('social')
+})
+
+app.get('/post/:post_id', function(req, res){
+    var user = req.user || "no user";
+    Post.findById(req.params.post_id)
+    .populate('comments')
+    .exec(function(err, post){
+      if(err){
+        console.log(err)
+      } else {
+        res.render('showBlog', {post: post, user: user})
+      }
+    })
 });
 
-app.get('/blogs', function(req, res){
-	Blog.find(function(err, blogs){
-		if(err) {
-			console.log(err);
-		} else {
-			res.render('blogs', { blogs: blogs } );
-		}
-	})
+app.get('/blog', function(req, res){
+  var user = req.user || "no user";
+    Post.find()
+    .populate('comments')
+    .exec(function(err, posts){
+      if(err){
+        console.log(err)
+      } else {
+        res.render('blog', {posts: posts, user: user})
+      }
+    })
 });
 
-var port = process.env.PORT || 8100;
-var router = express.Router();
-
-router.use(function(req, res, next) {
-	console.log('there is something happening here');
-	next();
+app.get('/new_post', function(req, res){
+  var user = req.user || "no user";
+  res.render('post', {user: user});
 });
 
-router.get('/', function(req, res) {
-	res.json({ message: 'hooray! welcome to our API!'});
+// app.use(function(req, res, next){
+//   var user = req.user || "no user";
+//   console.log(user);
+//   next();
+// });
+
+app.use('/api', postRoutes);
+app.use('/api/posts', commentRoutes);
+
+app.use('/api/tweets/', tweetRoutes);
+
+
+app.listen(port, function(req, res){
+  console.log('⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡\n⚡⚡⚡⚡ Magic happens on port' + port + ' ⚡⚡⚡⚡\n⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡')
 });
-
-app.use('/api', blogRouter);
-
-app.listen(port);
-console.log('⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡\n⚡⚡⚡⚡ Magic happens on port' + port + ' ⚡⚡⚡⚡\n⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡');
